@@ -1,121 +1,126 @@
-body, html {
+/* style.css */
+
+/* Estilos gerais do corpo */
+body {
   margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background-color: #333;
-  color: #ddd;
   font-family: 'Montserrat', sans-serif;
-}
-
-img {
-  width: 300px;
-  height: 300px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-.descricao {
-  width: 300px;
-  text-align: center;
-  margin-top: 15px;
-}
-
-h2 {
-  margin-bottom: 5px;
-  font-size: 24px;
-  font-weight: bold;
+  background: linear-gradient(to bottom, #1f1f1f, #3a3a3a);
   color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-i {
-  font-size: 18px;
-  color: #ddd;
+/* Container do player */
+.player-container {
+  position: relative;
+  width: 400px;
+  padding: 20px;
+  background: #222;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  text-align: center;
 }
 
+/* Imagem de fundo */
+.background-image {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  -webkit-animation-fill-mode: backwards;
+}
+
+/* Descrição da música */
+.descricao {
+  margin-bottom: 15px;
+}
+
+.descricao h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #e74c3c; /* Vermelho brilhante */
+}
+
+.descricao i {
+  display: block;
+  font-size: 16px;
+  color: #bdc3c7; /* Cinza claro */
+}
+
+/* Barra de progresso e duração */
 .duracao {
-  width: 300px;
-  margin-top: 25px;
+  margin-bottom: 15px;
 }
 
 .barra {
-  width: 100%;
-  height: 6px;
-  border: 1px solid #eee;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
   position: relative;
-  background-color: #444;
+  height: 8px;
+  background: #444;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
-progress {
+.barra progress {
   width: 100%;
-  height: 6px;
+  height: 8px;
   -webkit-appearance: none;
-  appearance: none;
-  background-color: #ddd;
-  position: absolute;
-  top: 0;
-  left: 0;
+  background: transparent;
 }
 
-progress::-webkit-progress-bar {
-  background-color: #444;
+.barra progress::-webkit-progress-bar {
+  background: transparent;
 }
 
-progress::-webkit-progress-value {
-  background-color: #1db954;
+.barra progress::-webkit-progress-value {
+  background: #e74c3c; /* Vermelho brilhante */
 }
 
 .ponto {
-  width: 12px;
-  height: 12px;
-  background-color: #1db954;
-  border-radius: 50%;
   position: absolute;
-  top: -4px;
+  top: -6px;
+  width: 12px;
+  height: 20px;
+  background: #e74c3c; /* Vermelho brilhante */
+  border-radius: 50%;
+  cursor: pointer;
   transform: translateX(-50%);
-  transition: transform 0.1s ease-in-out;
 }
 
+/* Tempo da música */
 .tempo {
   display: flex;
-  width: 100%;
   justify-content: space-between;
-  margin-top: 5px;
   font-size: 14px;
+  color: #bdc3c7; /* Cinza claro */
 }
 
+/* Controles do player */
 .player {
-  width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  margin-top: 25px;
+  gap: 15px;
+  margin-top: 20px;
 }
 
-.botao-play, .botao-pause {
-  font-size: 50px;
-  color: #1db954;
+.player i {
+  font-size: 28px;
+  color: #e74c3c; /* Vermelho brilhante */
   cursor: pointer;
-  transition: transform 0.1s ease-in-out;
 }
 
-.setas {
-  font-size: 40px;
-  color: #ddd;
-  cursor: pointer;
-  transition: transform 0.1s ease-in-out;
-}
-
-.botao-play:hover, .botao-pause:hover, .setas:hover {
-  transform: scale(1.1);
-}
-
-.botao-pause {
+.player .botao-pause {
   display: none;
+}
+
+/* Estilo do botão de play/pause */
+.botao-play, .botao-pause {
+  color: #e74c3c; /* Vermelho brilhante */
+}
+
+/* Estilo do botão de avanço e retrocesso */
+.setas {
+  color: #bdc3c7; /* Cinza claro */
 }

@@ -1,85 +1,72 @@
-let musicas = [
-    {titulo: 'Before i Forget', artista: 'Slipknot', source: 'beforeiforget.mpeg', img: 'slipknot.jpg'}
-];
+document.addEventListener('DOMContentLoaded', function () {
+    const playButton = document.querySelector('.botao-play');
+    const pauseButton = document.querySelector('.botao-pause');
+    const prevButton = document.querySelector('.anterior');
+    const nextButton = document.querySelector('.proximo');
+    const progress = document.querySelector('progress');
+    const currentTimeDisplay = document.querySelector('.inicio');
+    const durationDisplay = document.querySelector('.fim');
+    const audio = document.querySelector('audio');
+    const ponto = document.querySelector('.ponto');
 
-let musica = document.querySelector('audio');
-let musicaIndex = 0;
+    let isPlaying = false;
 
-let nomeMusica = document.querySelector('.descricao h2');
-let nomeArtista = document.querySelector('.descricao i');
-let imagem = document.querySelector('img');
-let tempoDecorrido = document.querySelector('.tempo .inicio');
-let duracaoMusica = document.querySelector('.tempo .fim');
-let barraProgresso = document.querySelector('progress');
-let ponto = document.querySelector('.ponto');
-
-// Inicializa a música
-renderizarMusica(musicaIndex);
-
-// EVENTOS
-document.querySelector('.botao-play').addEventListener('click', tocarMusica);
-document.querySelector('.botao-pause').addEventListener('click', pausarMusica);
-musica.addEventListener('timeupdate', atualizarBarra);
-document.querySelector('.anterior').addEventListener('click', () => {
-    musicaIndex--; 
-    if (musicaIndex < 0){
-        musicaIndex = musicas.length - 1;
-    }
-    renderizarMusica(musicaIndex);
-});
-document.querySelector('.proximo').addEventListener('click', () => {
-    musicaIndex++;
-    if (musicaIndex >= musicas.length){
-        musicaIndex = 0;
-    }
-    renderizarMusica(musicaIndex);
-});
-
-// FUNÇÕES
-
-function renderizarMusica(musicaIndex) {
-    musica.setAttribute('src', musicas[musicaIndex].source);
-    musica.addEventListener('loadeddata', () => {
-        nomeMusica.textContent = musicas[musicaIndex].titulo;
-        nomeArtista.textContent = musicas[musicaIndex].artista;
-        imagem.src = musicas[musicaIndex].img;
-        duracaoMusica.textContent = segundosParaMinutos(Math.floor(musica.duration));
+    // Play button event
+    playButton.addEventListener('click', function () {
+        audio.play();
+        playButton.style.display = 'none';
+        pauseButton.style.display = 'block';
+        isPlaying = true;
     });
 
-    resetarBarra();
-}
+    // Pause button event
+    pauseButton.addEventListener('click', function () {
+        audio.pause();
+        playButton.style.display = 'block';
+        pauseButton.style.display = 'none';
+        isPlaying = false;
+    });
 
-function tocarMusica() {
-    musica.play();
-    document.querySelector('.botao-play').style.display = 'none';
-    document.querySelector('.botao-pause').style.display = 'block';
-}
+    // Update progress bar and time display
+    audio.addEventListener('timeupdate', function () {
+        const currentTime = audio.currentTime;
+        const duration = audio.duration;
 
-function pausarMusica() {
-    musica.pause();
-    document.querySelector('.botao-play').style.display = 'block';
-    document.querySelector('.botao-pause').style.display = 'none';
-}
+        progress.value = currentTime / duration;
+        currentTimeDisplay.textContent = formatTime(currentTime);
+        durationDisplay.textContent = formatTime(duration);
 
-function segundosParaMinutos(segundos) {
-    let campoMinutos = Math.floor(segundos / 60);
-    let campoSegundos = segundos % 60;
+        // Atualiza a posição do ponto de progresso
+        const progressWidth = progress.clientWidth;
+        const pontoPosition = (currentTime / duration) * progressWidth;
+        ponto.style.left = `${pontoPosition}px`;
+    });
 
-    if (campoSegundos < 10) {
-        campoSegundos = '0' + campoSegundos;
+    // Skip to previous track (placeholder functionality)
+    prevButton.addEventListener('click', function () {
+        // Placeholder: você pode adicionar a funcionalidade real para a faixa anterior aqui
+        console.log('Previous track');
+    });
+
+    // Skip to next track (placeholder functionality)
+    nextButton.addEventListener('click', function () {
+        // Placeholder: você pode adicionar a funcionalidade real para a próxima faixa aqui
+        console.log('Next track');
+    });
+
+    // Atualiza o tempo do áudio ao clicar na barra de progresso
+    progress.addEventListener('click', function (e) {
+        const progressWidth = progress.clientWidth;
+        const clickX = e.offsetX;
+        const duration = audio.duration;
+        const newTime = (clickX / progressWidth) * duration;
+        audio.currentTime = newTime;
+    });
+
+    // Formata o tempo de segundos para minutos:segundos
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
     }
-    return `${campoMinutos}:${campoSegundos}`;
-}
-
-function atualizarBarra() {
-    let progresso = (musica.currentTime / musica.duration) * 100;
-    barraProgresso.value = progresso / 100;
-    ponto.style.transform = `translateX(${progresso}%)`;
-    tempoDecorrido.textContent = segundosParaMinutos(Math.floor(musica.currentTime));
-}
-
-function resetarBarra() {
-    barraProgresso.value = 0;
-    ponto.style.transform = 'translateX(0%)';
-    tempoDecorrido.textContent = '0:00';
-}
+});
